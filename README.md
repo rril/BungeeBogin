@@ -9,6 +9,6 @@ https://github.com/YoFuzzy3/BungeePortals
 
 Required:
 mysql
-WorldEdit - http://dev.bukkit.org/server-mods/worldedit/
-Bukkit - http://www.bukkit.org/
-BungeeCord - http://www.spigotmc.org/threads/bungeecord.392/
+WorldEdit - http://dev.bukkit.org/server-mods/worldedit/ 
+Bukkit - http://www.bukkit.org/ 
+BungeeCord - http://www.spigotmc.org/threads/bungeecord.392/ 
