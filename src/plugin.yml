@@ -1,0 +1,89 @@
+name: bungeelogin
+main: org.rril.bungeelogin.bungeelogin
+description: Create portals of any shape or size with WorldEdit, for BungeeCord.
+version: 0.9.0
+website: rril.org
+author: rril
+softdepend: [WorldEdit]
+commands:
+    bungeelogin:
+        description: Admin command for bungeelogin plugin.
+        aliases: [la, lauth]
+        usage: |
+            §6    /<command> register <player> <password>
+            §6    /<command> unregister <player>
+            §6    /<command> changepw <player> <newpassword>
+            §6    /<command> reload
+        permission: bungeelogin.admins
+        permission-message: "[§bbungeelogin§f] §cYou don't have enough permissions."
+    bungeelogin register:
+        description: Admin register command of bungeelogin.
+        aliases: [la register, lauth register]
+        usage: /<command> register <player> <password>
+        permission: bungeelogin.admin
+        permission-message: "[§bbungeelogin§f] §cYou don't have enough permissions."
+    bungeelogin unregister:
+        description: Admin unregister command of bungeelogin.
+        aliases: [la unregister, lauth unregister]
+        usage: /<command> unregister <player>
+        permission: bungeelogin.admin
+        permission-message: "[§bbungeelogin§f] §cYou don't have enough permissions."
+    bungeelogin changepw:
+        description: Admin changepw command of bungeelogin.
+        aliases: [la changepw, lauth changepw]
+        usage: /<command> changepw <player> <newpassword>
+        permission: bungeelogin.admin
+        permission-message: "[§bbungeelogin§f] §cYou don't have enough permissions."
+    bungeelogin reload:
+        description: Admin reload plugin command of bungeelogin.
+        aliases: [la reload, lauth reload]
+        usage: /<command> reload
+        permission: bungeelogin.admin
+        permission-message: "[§bbungeelogin§f] §cYou don't have enough permissions."
+    register:
+        description: Register command of bungeelogin.
+        aliases: [r]
+        usage: /<command> <password> <password>
+        permission: bungeelogin.register
+        permission-message: "[§bbungeelogin§f] §cYou don't have enough permissions."
+    login:
+        description: Login command of bungeelogin.
+        aliases: [l]
+        usage: /<command> <password>
+        permission: bungeelogin.login
+        permission-message: "[§bbungeelogin§f] §cYou don't have enough permissions."
+    logout:
+        description: Logout command of bungeelogin.
+        usage: /<command>
+        permission: bungeelogin.logout
+        permission-message: "[§bbungeelogin§f] §cYou don't have enough permissions."
+    changepw:
+        description: Change password command of bungeelogin.
+        aliases: [cpw]
+        usage: /<command> <password> <newpassword> <newpassword>
+        permission: bungeelogin.changepw
+        permission-message: "[§bbungeelogin§f] §cYou don't have enough permissions."
+    BPortals:
+        description: Do cool stuff.
+permissions:
+    bungeelogin.admin:
+        default: op
+        description: Allow to use admin commands.
+    bungeelogin.register:
+        default: true
+        description: Allow to register.
+    bungeelogin.login:
+        default: true
+        description: Allow to login on this server.
+    bungeelogin.logout:
+        default: true
+        description: Allow to logout of this server.
+    bungeelogin.changepw:
+        default: true
+        description: Allow to change your password.
+    BungeePortals.command.BPortals:
+        description: Allowed to access the command /BPortals.
+        default: op
+    BungeePortals.portal.*:
+        description: Access to all portals.
+        default: true
