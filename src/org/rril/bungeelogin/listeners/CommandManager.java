@@ -3,6 +3,7 @@ package org.rril.bungeelogin.listeners;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
+import org.bukkit.Bukkit;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -35,12 +36,12 @@ public class CommandManager implements CommandExecutor {
 				// ADMIN REGISTER COMMAND
 				if (args[0].equalsIgnoreCase("register")) {
 					if (args.length == 3) {
-						if (bungeelogin.isRegistered(args[1])) {
+						if (bungeelogin.isRegistered(Bukkit.getPlayer(args[1]).getUniqueId().toString())) {
 							sender.sendMessage(bungeelogin.PROMPT + ChatColor.RED + args[1] + " is already registered");
 							return true;
 						}
 
-						String query = "INSERT INTO users(username, password) VALUES('" + args[1] + "','" + MD5.crypt(args[2]) + "');";
+						String query = "INSERT INTO users(username, password) VALUES('" + Bukkit.getPlayer(args[1]).getUniqueId().toString() + "','" + MD5.crypt(args[2]) + "');";
 						try {
 							bungeelogin.databaseConnection.executeUpdate(query);
 						}
@@ -65,7 +66,7 @@ public class CommandManager implements CommandExecutor {
 							return true;
 						}
 
-						String query = "DELETE FROM users WHERE username = '" + args[1] + "';";
+						String query = "DELETE FROM users WHERE username = '" + Bukkit.getPlayer(args[1]).getUniqueId().toString() + "';";
 						try {
 							bungeelogin.databaseConnection.executeUpdate(query);
 						}
@@ -90,7 +91,7 @@ public class CommandManager implements CommandExecutor {
 							return true;
 						}
 
-						String query = "UPDATE users SET password = '" + MD5.crypt(args[2]) + "' WHERE username = '" + args[1] + "';";
+						String query = "UPDATE users SET password = '" + MD5.crypt(args[2]) + "' WHERE username = '" + Bukkit.getPlayer(args[1]).getUniqueId().toString() + "';";
 						try {
 							bungeelogin.databaseConnection.executeUpdate(query);
 						}
@@ -124,7 +125,6 @@ public class CommandManager implements CommandExecutor {
 
 		// REGISTER COMMAND
 		if ((cmd.getName().equalsIgnoreCase("register")) && (sender instanceof Player)) {
-                    sender.sendMessage("123123");
 			if (sender.hasPermission("bungeelogin.register")) {
 				Player player = (Player) sender;
 
