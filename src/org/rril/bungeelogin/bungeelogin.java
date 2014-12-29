@@ -62,6 +62,17 @@ public class bungeelogin extends JavaPlugin implements Listener {
 		logger = getLogger();
 		loadConfigurationFiles();
 
+                getCommand("BPortals").setExecutor(new CommandBPortals(this));
+		this.logger.log(Level.INFO, " Commands registered!");
+		getServer().getPluginManager().registerEvents(new EventsManager(this), this);
+		this.logger.log(Level.INFO, " Events registered!");
+		getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
+		this.logger.log(Level.INFO, " Plugin channel registered!");
+		loadPortalsData();
+		Integer interval = this.configFile.getInt("SaveTask.Interval") * 20;
+		new SaveTask(this).runTaskTimer(this, interval, interval);
+		this.logger.log(Level.INFO, " Save task started!");
+
 		String host = this.configFile.getString("DatabaseHost");
 		int port = this.configFile.getInt("DatabasePort");
 		String database = this.configFile.getString("DatabaseName");
@@ -87,24 +98,14 @@ public class bungeelogin extends JavaPlugin implements Listener {
 			pluginManager.disablePlugin(pluginManager.getPlugin(getName()));
 			databaseConnection = null;
 		}
-		Long time = System.currentTimeMillis();
+
+                Long time = System.currentTimeMillis();
 		if(getServer().getPluginManager().getPlugin("WorldEdit") == null){
 			getPluginLoader().disablePlugin(this);
-			throw new NullPointerException("[BungeePortals] WorldEdit not found, disabling...");
+			throw new NullPointerException(" WorldEdit not found, disabling...");
 		}
 		this.worldEdit = (WorldEditPlugin) getServer().getPluginManager().getPlugin("WorldEdit");
-
-                getCommand("BPortals").setExecutor(new CommandBPortals(this));
-		this.logger.log(Level.INFO, "[BungeePortals] Commands registered!");
-		getServer().getPluginManager().registerEvents(new EventsManager(this), this);
-		this.logger.log(Level.INFO, "[BungeePortals] Events registered!");
-		getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
-		this.logger.log(Level.INFO, "[BungeePortals] Plugin channel registered!");
-		loadPortalsData();
-		//Integer interval = this.configFile.getInt("SaveTask.Interval") * 20;
-		//new SaveTask(this).runTaskTimer(this, interval, interval);
-		//this.logger.log(Level.INFO, "[BungeePortals] Save task started!");
-		this.logger.log(Level.INFO, "[BungeePortals] Version " + getDescription().getVersion() + " has been enabled. (" + (System.currentTimeMillis() - time) + "ms)");
+		this.logger.log(Level.INFO, " Version " + getDescription().getVersion() + " has been enabled. (" + (System.currentTimeMillis() - time) + "ms)");
 
 	}
 
@@ -115,14 +116,14 @@ public class bungeelogin extends JavaPlugin implements Listener {
 	    	    String value = this.portalsFile.getString(key);
 	    	    this.portalData.put(key, value);
 	    	}
-			this.logger.log(Level.INFO, "[BungeePortals] Portal data loaded! (" + (System.currentTimeMillis() - time) + "ms)");
+			this.logger.log(Level.INFO, " Portal data loaded! (" + (System.currentTimeMillis() - time) + "ms)");
 	    }catch(NullPointerException e){ }
 	}
 	
 	public void onDisable() {
 		Long time = System.currentTimeMillis();
 		savePortalsData();
-		this.logger.log(Level.INFO, "[BungeePortals] Version " + getDescription().getVersion() + " has been disabled. (" + (System.currentTimeMillis() - time) + "ms)");
+		this.logger.log(Level.INFO, " Version " + getDescription().getVersion() + " has been disabled. (" + (System.currentTimeMillis() - time) + "ms)");
 
 		if (databaseConnection != null) {
 			try {
@@ -201,18 +202,18 @@ public class bungeelogin extends JavaPlugin implements Listener {
 		if(!configFile.exists()){
 			configFile.getParentFile().mkdirs();
 			createConfigurationFile(getResource("config.yml"), configFile);
-			this.logger.log(Level.INFO, "[BungeePortals] Configuration file config.yml created!");
+			this.logger.log(Level.INFO, " Configuration file config.yml created!");
 		}
 		this.configFile = YamlConfiguration.loadConfiguration(new File(getDataFolder(), "config.yml"));
-		this.logger.log(Level.INFO, "[BungeePortals] Configuration file config.yml loaded!");
+		this.logger.log(Level.INFO, " Configuration file config.yml loaded!");
 		File portalsFile = new File(getDataFolder(), "portals.yml");
 		if(!portalsFile.exists()){
 			portalsFile.getParentFile().mkdirs();
 			createConfigurationFile(getResource("portals.yml"), portalsFile);
-			this.logger.log(Level.INFO, "[BungeePortals] Configuration file portals.yml created!");
+			this.logger.log(Level.INFO, " Configuration file portals.yml created!");
 		}
 		this.portalsFile = YamlConfiguration.loadConfiguration(new File(getDataFolder(), "portals.yml"));
-		this.logger.log(Level.INFO, "[BungeePortals] Configuration file portals.yml loaded!");
+		this.logger.log(Level.INFO, " Configuration file portals.yml loaded!");
 	}
 	
 	public void savePortalsData(){
@@ -225,6 +226,6 @@ public class bungeelogin extends JavaPlugin implements Listener {
 		}catch(IOException e){
 			e.printStackTrace();
 		}
-		this.logger.log(Level.INFO, "[BungeePortals] Portal data saved! (" + (System.currentTimeMillis() - time) + "ms)");
+		this.logger.log(Level.INFO, " Portal data saved! (" + (System.currentTimeMillis() - time) + "ms)");
 	}
 }

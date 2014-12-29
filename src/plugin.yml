@@ -8,7 +8,7 @@ softdepend: [WorldEdit]
 commands:
     bungeelogin:
         description: Admin command for bungeelogin plugin.
-        aliases: [la, lauth]
+        aliases: [bl, bauth]
         usage: |
             §6    /<command> register <player> <password>
             §6    /<command> unregister <player>
@@ -18,25 +18,25 @@ commands:
         permission-message: "[§bbungeelogin§f] §cYou don't have enough permissions."
     bungeelogin register:
         description: Admin register command of bungeelogin.
-        aliases: [la register, lauth register]
+        aliases: [bl register, bauth register]
         usage: /<command> register <player> <password>
         permission: bungeelogin.admin
         permission-message: "[§bbungeelogin§f] §cYou don't have enough permissions."
     bungeelogin unregister:
         description: Admin unregister command of bungeelogin.
-        aliases: [la unregister, lauth unregister]
+        aliases: [bl unregister, bauth unregister]
         usage: /<command> unregister <player>
         permission: bungeelogin.admin
         permission-message: "[§bbungeelogin§f] §cYou don't have enough permissions."
     bungeelogin changepw:
         description: Admin changepw command of bungeelogin.
-        aliases: [la changepw, lauth changepw]
+        aliases: [bl changepw, bauth changepw]
         usage: /<command> changepw <player> <newpassword>
         permission: bungeelogin.admin
         permission-message: "[§bbungeelogin§f] §cYou don't have enough permissions."
     bungeelogin reload:
         description: Admin reload plugin command of bungeelogin.
-        aliases: [la reload, lauth reload]
+        aliases: [bl reload, bauth reload]
         usage: /<command> reload
         permission: bungeelogin.admin
         permission-message: "[§bbungeelogin§f] §cYou don't have enough permissions."
