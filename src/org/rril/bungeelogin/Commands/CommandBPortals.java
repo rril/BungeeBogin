@@ -30,20 +30,20 @@ public class CommandBPortals implements CommandExecutor{
 		if(commandLabel.equalsIgnoreCase("BPortals")){
 			if(sender.hasPermission("BungeePortals.command.BPortals")){
 				if(args.length == 0){
-					sender.sendMessage(ChatColor.BLUE + "BungeePortals v" + plugin.getDescription().getVersion() + " by YoFuzzy3");
-					sender.sendMessage(ChatColor.GREEN + "/BPortals reload " + ChatColor.RED + "Reload all files and data.");
+					sender.sendMessage(ChatColor.BLUE + "BungeePortals v" + plugin.getDescription().getVersion() + " by rril");
+					//sender.sendMessage(ChatColor.GREEN + "/BPortals reload " + ChatColor.RED + "Reload all files and data.");
 					sender.sendMessage(ChatColor.GREEN + "/BPortals forcesave " + ChatColor.RED + "Force-save portals.");
 					sender.sendMessage(ChatColor.GREEN + "/BPortals select <filter,list> " + ChatColor.RED + "Get selection.");
 					sender.sendMessage(ChatColor.GREEN + "/BPortals clear " + ChatColor.RED + "Clear selection.");
 					sender.sendMessage(ChatColor.GREEN + "/BPortals create <destination> " + ChatColor.RED + "Create portals.");
 					sender.sendMessage(ChatColor.GREEN + "/BPortals remove <destination> " + ChatColor.RED + "Remove portals.");
-					sender.sendMessage(ChatColor.BLUE + "Visit www.spigotmc.org/resources/bungeeportals.19 for help.");
+					sender.sendMessage(ChatColor.BLUE + "Visit https://github.com/rril/BungeeLogin for help.");
 				}else if(args.length == 1){
-					if(args[0].equalsIgnoreCase("reload")){
+					/*if(args[0].equalsIgnoreCase("reload")){
 						plugin.loadConfigurationFiles();
 						plugin.loadPortalsData();
 						sender.sendMessage(ChatColor.GREEN + "All configuration files and data have been reloaded.");
-					}else if(args[0].equalsIgnoreCase("forcesave")){
+					}else*/ if(args[0].equalsIgnoreCase("forcesave")){
 						plugin.savePortalsData();
 						sender.sendMessage(ChatColor.GREEN + "Portal data saved!");
 					}else if(args[0].equalsIgnoreCase("clear")){

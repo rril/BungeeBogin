@@ -11,3 +11,5 @@ SaveTask:
   Enabled: false
   Interval: 600
 NoPortalPermissionMessage: '&cYou do not have permission to go to the server {destination}.'
+PleaseLoginToUse: '&cPlease &7/login&c to use.'
+PleaseRegisterToUse: '&cPlease &7/register&c to use.'

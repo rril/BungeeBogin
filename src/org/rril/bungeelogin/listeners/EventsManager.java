@@ -40,19 +40,19 @@ public class EventsManager implements Listener {
 
     @EventHandler
     public void onPlayerMove(PlayerMoveEvent event) throws IOException {
-        if (bungeelogin.isLogged(event.getPlayer())) {
-            Player player = event.getPlayer();
-            String playerName = player.getName();
-            if (!this.statusData.containsKey(playerName)) {
-                this.statusData.put(playerName, false);
-            }
-            Block block = player.getWorld().getBlockAt(player.getLocation());
-            String data = block.getWorld().getName() + "#" + String.valueOf(block.getX()) + "#" + String.valueOf(block.getY()) + "#" + String.valueOf(block.getZ());
-            if (plugin.portalData.containsKey(data)) {
-                if (!this.statusData.get(playerName)) {
-                    this.statusData.put(playerName, true);
-                    String destination = plugin.portalData.get(data);
-                    if (player.hasPermission("BungeePortals.portal." + destination) || player.hasPermission("BungeePortals.portal.*")) {
+        Player player = event.getPlayer();
+        String playerName = player.getName();
+        if (!this.statusData.containsKey(playerName)) {
+            this.statusData.put(playerName, false);
+        }
+        Block block = player.getWorld().getBlockAt(player.getLocation());
+        String data = block.getWorld().getName() + "#" + String.valueOf(block.getX()) + "#" + String.valueOf(block.getY()) + "#" + String.valueOf(block.getZ());
+        if (plugin.portalData.containsKey(data)) {
+            if (!this.statusData.get(playerName)) {
+                this.statusData.put(playerName, true);
+                String destination = plugin.portalData.get(data);
+                if (player.hasPermission("BungeePortals.portal." + destination) || player.hasPermission("BungeePortals.portal.*")) {
+                    if (bungeelogin.isLogged(event.getPlayer())) {
                         ByteArrayOutputStream baos = new ByteArrayOutputStream();
                         DataOutputStream dos = new DataOutputStream(baos);
                         dos.writeUTF("Connect");
@@ -60,18 +60,22 @@ public class EventsManager implements Listener {
                         player.sendPluginMessage(plugin, "BungeeCord", baos.toByteArray());
                         baos.close();
                         dos.close();
-                        if (bungeelogin.isLogged(event.getPlayer())) {
-                            bungeelogin.sessions.remove(event.getPlayer().getUniqueId().toString());
-                        }
-
+                        bungeelogin.sessions.remove(player.getUniqueId().toString());
                     } else {
-                        player.sendMessage(plugin.configFile.getString("NoPortalPermissionMessage").replace("{destination}", destination).replaceAll("(&([a-f0-9l-or]))", "\u00A7$2"));
+                        if (!bungeelogin.isRegistered(player)) {
+                            player.sendMessage(plugin.configFile.getString("PleaseRegisterToUse").replaceAll("(&([a-f0-9l-or]))", "\u00A7$2"));
+                        } else {
+                            player.sendMessage(plugin.configFile.getString("PleaseLoginToUse").replaceAll("(&([a-f0-9l-or]))", "\u00A7$2"));
+                        }
                     }
+
+                } else {
+                    player.sendMessage(plugin.configFile.getString("NoPortalPermissionMessage").replace("{destination}", destination).replaceAll("(&([a-f0-9l-or]))", "\u00A7$2"));
                 }
-            } else {
-                if (this.statusData.get(playerName)) {
-                    this.statusData.put(playerName, false);
-                }
+            }
+        } else {
+            if (this.statusData.get(playerName)) {
+                this.statusData.put(playerName, false);
             }
         }
     }
@@ -120,14 +124,14 @@ public class EventsManager implements Listener {
      *
      * @param event
      */
-    /*
+    
      @EventHandler(priority = EventPriority.HIGHEST)
      public void onPlayerChat(AsyncPlayerChatEvent event) {
      if (!bungeelogin.isLogged(event.getPlayer())) {
      event.setCancelled(true);
      event.getPlayer().sendMessage(bungeelogin.PROMPT + ChatColor.RED + "You must be logged in to chat");
      }
-     }*/
+     }
     /**
      * When a player try to enter commands : just allow /login and /register
      *
