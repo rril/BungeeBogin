@@ -93,11 +93,11 @@ public class EventsManager implements Listener {
         if (!bungeelogin.isRegistered(event.getPlayer())) {
             event.getPlayer().sendMessage("Welcome " + event.getPlayer().getName() + " on our server!");
             event.getPlayer().sendMessage("You aren't registered yet. Please register with :");
-            event.getPlayer().sendMessage(ChatColor.GOLD + "/register <passwd> <passwd>");
+            event.getPlayer().sendMessage(ChatColor.GOLD + "/register <password> <password>");
         } else {
             event.getPlayer().sendMessage("Welcome back " + event.getPlayer().getName() + " on our server!");
             event.getPlayer().sendMessage("You are already registered. Please login with :");
-            event.getPlayer().sendMessage(ChatColor.GOLD + "/login <passwd>");
+            event.getPlayer().sendMessage(ChatColor.GOLD + "/login <password>");
         }
     }
 
@@ -124,14 +124,14 @@ public class EventsManager implements Listener {
      *
      * @param event
      */
-    
-     @EventHandler(priority = EventPriority.HIGHEST)
-     public void onPlayerChat(AsyncPlayerChatEvent event) {
-     if (!bungeelogin.isLogged(event.getPlayer())) {
-     event.setCancelled(true);
-     event.getPlayer().sendMessage(bungeelogin.PROMPT + ChatColor.RED + "You must be logged in to chat");
-     }
-     }
+    @EventHandler(priority = EventPriority.HIGHEST)
+    public void onPlayerChat(AsyncPlayerChatEvent event) {
+        if (!bungeelogin.isLogged(event.getPlayer())) {
+            event.setCancelled(true);
+            event.getPlayer().sendMessage(bungeelogin.PROMPT + ChatColor.RED + "You must be logged in to chat");
+        }
+    }
+
     /**
      * When a player try to enter commands : just allow /login and /register
      *
