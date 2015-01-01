@@ -5,23 +5,14 @@
  */
 package org.rril.bungeelogin.listeners;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
-import java.io.LineNumberReader;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.Arrays;
 import java.util.UUID;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.OfflinePlayer;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -108,6 +99,20 @@ public final class vAuthListen {
         }
                 plugin.getLogger().warning(player.getName() + ChatColor.RED + " STOP the bla bla.");                
         return false;
+    }
+
+    public boolean remove(Player player) {
+        if(this.isRegister(player)){
+            UserPass.set(player.getUniqueId().toString(), null);
+            try {
+                UserPass.save(UserPassFile);
+            } catch (IOException e) {
+                plugin.getLogger().warning(player.getName() + ChatColor.RED + " Failed to save password! " + e.toString());                
+                return false;
+            }
+            return true;
+        }
+        return false;        
     }
 
     public boolean comparePasswordToHash(String password, String encodedHash) {

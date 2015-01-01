@@ -1,7 +1,7 @@
 name: bungeelogin
 main: org.rril.bungeelogin.bungeelogin
 description: Create portals of any shape or size with WorldEdit, for BungeeCord.
-version: 0.9.11
+version: 0.9.12
 website: rril.org
 author: rril
 softdepend: [WorldEdit]

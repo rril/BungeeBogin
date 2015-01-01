@@ -40,14 +40,24 @@ public class CommandManager implements CommandExecutor {
                             sender.sendMessage(bungeelogin.PROMPT + ChatColor.RED + args[1] + " is already registered");
                             return true;
                         }
-
-                        String query = "INSERT INTO users(username, password) VALUES('" + Bukkit.getPlayer(args[1]).getUniqueId().toString() + "','" + MD5.crypt(args[2]) + "');";
-                        try {
-                            bungeelogin.databaseConnection.executeUpdate(query);
-                        } catch (SQLException e) {
-                            bungeelogin.logger.log(Level.SEVERE, "SQL Exception - " + e.toString());
-                            sender.sendMessage(bungeelogin.PROMPT + ChatColor.RED + "An error occured when you try to register " + args[1]);
-                            return true;
+                        if (bungeelogin.vAuth) {
+                            try {
+                                bungeelogin.vAuthDatabaseConnection.register(Bukkit.getPlayer(args[1].toString()), args[2].toString(), args[2].toString());
+                            } catch (Exception e)  {
+                                bungeelogin.logger.log(Level.SEVERE, "vAuth Exception - " + e.toString());
+                                sender.sendMessage(bungeelogin.PROMPT + ChatColor.RED + "An error occured when you try to register.");
+                                sender.sendMessage(bungeelogin.PROMPT + ChatColor.RED + "Try again or contact an admin");
+                                return true;
+                            }
+                        } else {
+                            String query = "INSERT INTO users(username, password) VALUES('" + Bukkit.getPlayer(args[1]).getUniqueId().toString() + "','" + MD5.crypt(args[2]) + "');";
+                            try {
+                                bungeelogin.databaseConnection.executeUpdate(query);
+                            } catch (SQLException e) {
+                                bungeelogin.logger.log(Level.SEVERE, "SQL Exception - " + e.toString());
+                                sender.sendMessage(bungeelogin.PROMPT + ChatColor.RED + "An error occured when you try to register " + args[1]);
+                                return true;
+                            }
                         }
                         sender.sendMessage(bungeelogin.PROMPT + ChatColor.GREEN + args[1] + " is successfully registered");
                         return true;
@@ -64,14 +74,24 @@ public class CommandManager implements CommandExecutor {
                             sender.sendMessage(bungeelogin.PROMPT + ChatColor.RED + args[1] + " is not registered");
                             return true;
                         }
-
-                        String query = "DELETE FROM users WHERE username = '" + Bukkit.getPlayer(args[1]).getUniqueId().toString() + "';";
-                        try {
-                            bungeelogin.databaseConnection.executeUpdate(query);
-                        } catch (SQLException e) {
-                            bungeelogin.logger.log(Level.SEVERE, "SQL Exception - " + e.toString());
-                            sender.sendMessage(bungeelogin.PROMPT + ChatColor.RED + "An error occured when you try to unregister " + args[1]);
-                            return true;
+                        if (bungeelogin.vAuth) {
+                            try {
+                                bungeelogin.vAuthDatabaseConnection.remove(Bukkit.getPlayer(args[1].toString()));
+                            } catch (Exception e)  {
+                                bungeelogin.logger.log(Level.SEVERE, "vAuth Exception - " + e.toString());
+                                sender.sendMessage(bungeelogin.PROMPT + ChatColor.RED + "An error occured when you try to register.");
+                                sender.sendMessage(bungeelogin.PROMPT + ChatColor.RED + "Try again or contact an admin");
+                                return true;
+                            }
+                        } else {
+                            String query = "DELETE FROM users WHERE username = '" + Bukkit.getPlayer(args[1]).getUniqueId().toString() + "';";
+                            try {
+                                bungeelogin.databaseConnection.executeUpdate(query);
+                            } catch (SQLException e) {
+                                bungeelogin.logger.log(Level.SEVERE, "SQL Exception - " + e.toString());
+                                sender.sendMessage(bungeelogin.PROMPT + ChatColor.RED + "An error occured when you try to unregister " + args[1]);
+                                return true;
+                            }
                         }
                         sender.sendMessage(bungeelogin.PROMPT + ChatColor.GREEN + args[1] + " is successfully unregistered");
                         return true;
@@ -88,15 +108,25 @@ public class CommandManager implements CommandExecutor {
                             sender.sendMessage(bungeelogin.PROMPT + ChatColor.RED + args[1] + " is not registered");
                             return true;
                         }
-
-                        String query = "UPDATE users SET password = '" + MD5.crypt(args[2]) + "' WHERE username = '" + Bukkit.getPlayer(args[1]).getUniqueId().toString() + "';";
-                        try {
-                            bungeelogin.databaseConnection.executeUpdate(query);
-                        } catch (SQLException e) {
-                            bungeelogin.logger.log(Level.SEVERE, "SQL Exception - " + e.toString());
-                            sender.sendMessage(bungeelogin.PROMPT + ChatColor.RED + "An error occured when you try to change " + args[1]
-									+ "'s password.");
-                            return true;
+                        if (bungeelogin.vAuth) {
+                            try {
+                                bungeelogin.vAuthDatabaseConnection.register(Bukkit.getPlayer(args[2].toString()), args[3].toString(), args[3].toString());
+                            } catch (Exception e)  {
+                                bungeelogin.logger.log(Level.SEVERE, "vAuth Exception - " + e.toString());
+                                sender.sendMessage(bungeelogin.PROMPT + ChatColor.RED + "An error occured when you try to register.");
+                                sender.sendMessage(bungeelogin.PROMPT + ChatColor.RED + "Try again or contact an admin");
+                                return true;
+                            }
+                        } else {
+                            String query = "UPDATE users SET password = '" + MD5.crypt(args[2]) + "' WHERE username = '" + Bukkit.getPlayer(args[1]).getUniqueId().toString() + "';";
+                            try {
+                                bungeelogin.databaseConnection.executeUpdate(query);
+                            } catch (SQLException e) {
+                                bungeelogin.logger.log(Level.SEVERE, "SQL Exception - " + e.toString());
+                                sender.sendMessage(bungeelogin.PROMPT + ChatColor.RED + "An error occured when you try to change " + args[1]
+                                                                            + "'s password.");
+                                return true;
+                            }
                         }
                         sender.sendMessage(bungeelogin.PROMPT + ChatColor.GREEN + "You are successfully change " + args[1] + "'s password");
                         return true;
@@ -278,7 +308,7 @@ public class CommandManager implements CommandExecutor {
                         if (args[1].equalsIgnoreCase(args[2])) {
                             if (bungeelogin.vAuth) {
                                 try {
-                                    bungeelogin.vAuthDatabaseConnection.register(player, args[0], args[1]);
+                                    bungeelogin.vAuthDatabaseConnection.register(player, args[1], args[2]);
                                 } catch (Exception e) {
                                     bungeelogin.logger.log(Level.SEVERE, "vAuth Exception - " + e.toString());
                                     player.sendMessage(bungeelogin.PROMPT + ChatColor.RED + "An error occured when you try to register.");
