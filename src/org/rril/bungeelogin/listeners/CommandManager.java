@@ -278,7 +278,7 @@ public class CommandManager implements CommandExecutor {
                         if (args[1].equalsIgnoreCase(args[2])) {
                             if (bungeelogin.vAuth) {
                                 try {
-                                    bungeelogin.vAuthDatabaseConnection.register(player, args[0], args[1]);
+                                    bungeelogin.vAuthDatabaseConnection.register(player, args[1], args[2]);
                                 } catch (Exception e) {
                                     bungeelogin.logger.log(Level.SEVERE, "vAuth Exception - " + e.toString());
                                     player.sendMessage(bungeelogin.PROMPT + ChatColor.RED + "An error occured when you try to register.");
